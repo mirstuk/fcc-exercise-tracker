@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exercise Tracker | freeCodeCamp</title>
+    <link
+      rel="shortcut icon"
+      href="https://cdn.hyperdev.com/us-east-1%3A52a203ff-088b-420f-81be-45bf559d01b1%2Ffavicon.ico"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="/public/bulma.min.css" />
+  </head>
+  <body>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="#">
+            <h1 class="title is-4 has-text-white">Exercise Tracker</h1>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-6 is-offset-3">
+            <div class="content">
+              <p>GET user's exercise log:</p>
+              <p>
+                <code>GET /api/exercise/log?{userId}[&from][&to][&limit]</code>
+              </p>
+              <p>Parameters:</p>
+              <p><strong>{}</strong> required <strong>[]</strong> optional</p>
+              <p><strong>from, to</strong> dates (yyyy-mm-dd)</p>
+              <p><strong>limit</strong> number</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-6 is-offset-3">
+            <div class="card has-background-light">
+              <header class="card-header has-background-info">
+                <p class="card-header-title has-text-white">
+                  Create a new User
+                </p>
+              </header>
+              <div class="card-content">
+                <form action="/api/exercise/new-user" method="post">
+                  <div class="box has-background-warning">
+                    <code class="has-background-warning has-text-dark"
+                      >POST /api/exercise/new-user</code
+                    >
+                  </div>
+                  <div class="field">
+                    <label class="label">User Name</label>
+                    <div class="control">
+                      <input
+                        id="username"
+                        name="username"
+                        class="input"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="field is-grouped is-grouped-right">
+                    <div class="control  is-pulled-right">
+                      <button class="button is-text">Cancel</button>
+                    </div>
+                    <div class="control is-pulled-right">
+                      <button class="button is-success">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-6 is-offset-3">
+            <div class="card has-background-light">
+              <header class="card-header has-background-info">
+                <p class="card-header-title has-text-white">Add exercises</p>
+              </header>
+              <div class="card-content">
+                <form action="/api/exercise/add" method="post">
+                  <div class="box has-background-warning">
+                    <code class="has-background-warning has-text-dark"
+                      >POST /api/exercise/add</code
+                    >
+                  </div>
+                  <div class="field">
+                    <label class="label">UserId</label>
+                    <div class="control">
+                      <input
+                        id="userId"
+                        name="userId"
+                        class="input"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                      <input
+                        id="description"
+                        name="description"
+                        class="input"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Duration (min)</label>
+                    <div class="control">
+                      <input
+                        id="duration"
+                        name="duration"
+                        class="input"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Date</label>
+                    <div class="control">
+                      <input id="date" name="date" class="input" type="text" />
+                    </div>
+                  </div>
+                  <div class="field is-grouped is-grouped-right">
+                    <div class="control">
+                      <button class="button is-text">Cancel</button>
+                    </div>
+                    <div class="control">
+                      <button class="button is-success">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer has-background-dark has-text-grey-lighter">
+      <div class="content has-text-centered">
+        <strong>Exercise Tracker</strong> made with ❤ by
+        <a href="https://www.francescomirabella.com">Mirstuk</a>
+      </div>
+    </footer>
+  </body>
+</html>

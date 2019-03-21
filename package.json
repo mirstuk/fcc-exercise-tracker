@@ -1,0 +1,32 @@
+{
+  "name": "fcc-exercise-tracker",
+  "version": "1.0.0",
+  "description": "API project for freeCodeCamp",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19",
+    "cors": "^2.8.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirstuk/fcc-exercise-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mirstuk/fcc-exercise-tracker/issues"
+  },
+  "homepage": "https://github.com/mirstuk/fcc-exercise-tracker#readme",
+  "author": "Francesco Mirabella",
+  "license": "MIT",
+  "engines": {
+    "node": "10.x"
+  },
+  "keywords": [
+    "node",
+    "mongodb",
+    "express"
+  ]
+}
