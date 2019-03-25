@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
@@ -22,10 +23,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/public', express.static(__dirname + '/public'));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(path.join(__dirname, '/views/index.html'));
 });
 
 app.get('/api/exercise/users', (req, res) => {
