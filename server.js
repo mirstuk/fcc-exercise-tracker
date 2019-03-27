@@ -59,17 +59,12 @@ app.post('/api/exercise/add', (req, res) => {
       else if (!user) res.send('User nor found');
       else username = user.username;
     });
-    // set date
-    let date;
-    if (!req.body.date) {
-      const now = new Date();
-      date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-    } else date = req.body.date;
+
     const newExercise = new Exercise({
       userId: req.body.userId,
       description: req.body.description,
-      duration: req.body.duration,
-      date
+      duration: +req.body.duration,
+      date: req.body.date ? new Date(req.body.date) : new Date()
     });
     newExercise
       .save()
@@ -84,6 +79,65 @@ app.post('/api/exercise/add', (req, res) => {
       )
       .catch(err => res.status(500).json({ error: err }));
   }
+});
+
+app.get('/api/exercise/log', (req, res) => {
+  if (!req.query.userId) res.send('You must provide an user id');
+  const userId = req.query.userId;
+  let from, to;
+  if (req.query.from) {
+    from = new Date(req.query.from);
+    if (from == 'Invalid Date' || to == 'Invalid Date')
+      res.send('from field must be yyyy-mm-dd');
+  }
+  if (req.query.to) {
+    to = new Date(req.query.to);
+    if (to == 'Invalid Date' || to == 'Invalid Date')
+      res.send('to field must be yyyy-mm-dd');
+  }
+  const limit = +req.query.limit || 100;
+
+  // find user name
+  let username;
+  User.find({ _id: userId }, (err, user) => {
+    if (err) res.json({ message: 'Could not find user' });
+    else {
+      username = user.username;
+    }
+  });
+
+  const filter = {
+    userId
+  };
+
+  const date = {};
+  if (from) date.$gte = from;
+  if (to) date.$lte = to;
+
+  if (Object.keys(date).length !== 0) filter.date = date;
+
+  console.log(filter);
+
+  // count logs
+  let count;
+  Exercise.find(filter)
+    .limit(limit)
+    .countDocuments((err, docs) => {
+      if (err) res.json({ message: "Could not find user's exercise log" });
+      else count = docs;
+    });
+
+  // find exercise log
+  Exercise.find(filter)
+    .select('description duration date')
+    .limit(limit)
+    .sort('-date')
+    .exec((err, log) => {
+      if (err) res.json({ message: "Could not find user's exercise log" });
+      else {
+        res.json({ username, log, count });
+      }
+    });
 });
 
 app.listen(port, function() {
