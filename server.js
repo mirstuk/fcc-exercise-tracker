@@ -55,29 +55,30 @@ app.post('/api/exercise/add', (req, res) => {
     // find user
     let username;
     User.findOne({ _id: req.body.userId }, (err, user) => {
-      if (err) res.send('Error while searching for user id');
-      else if (!user) res.send('User nor found');
-      else username = user.username;
+      if (err) res.json('Error while searching for user id');
+      else if (!user) res.json('User nor found');
+      else {
+        username = user.username;
+        const newExercise = new Exercise({
+          userId: req.body.userId,
+          description: req.body.description,
+          duration: +req.body.duration,
+          date: req.body.date ? new Date(req.body.date) : new Date()
+        });
+        newExercise
+          .save()
+          .then(exercise =>
+            res.json({
+              username,
+              userId: exercise.userId,
+              description: exercise.description,
+              duration: exercise.duration,
+              date: exercise.date
+            })
+          )
+          .catch(err => res.status(500).json({ error: err }));
+      }
     });
-
-    const newExercise = new Exercise({
-      userId: req.body.userId,
-      description: req.body.description,
-      duration: +req.body.duration,
-      date: req.body.date ? new Date(req.body.date) : new Date()
-    });
-    newExercise
-      .save()
-      .then(exercise =>
-        res.json({
-          username,
-          userId: exercise.userId,
-          description: exercise.description,
-          duration: exercise.duration,
-          date: exercise.date
-        })
-      )
-      .catch(err => res.status(500).json({ error: err }));
   }
 });
 
@@ -99,7 +100,7 @@ app.get('/api/exercise/log', (req, res) => {
 
   // find user name
   let username;
-  User.find({ _id: userId }, (err, user) => {
+  User.findOne({ _id: userId }, (err, user) => {
     if (err) res.json({ message: 'Could not find user' });
     else {
       username = user.username;
@@ -113,19 +114,7 @@ app.get('/api/exercise/log', (req, res) => {
   const date = {};
   if (from) date.$gte = from;
   if (to) date.$lte = to;
-
   if (Object.keys(date).length !== 0) filter.date = date;
-
-  console.log(filter);
-
-  // count logs
-  let count;
-  Exercise.find(filter)
-    .limit(limit)
-    .countDocuments((err, docs) => {
-      if (err) res.json({ message: "Could not find user's exercise log" });
-      else count = docs;
-    });
 
   // find exercise log
   Exercise.find(filter)
@@ -135,7 +124,7 @@ app.get('/api/exercise/log', (req, res) => {
     .exec((err, log) => {
       if (err) res.json({ message: "Could not find user's exercise log" });
       else {
-        res.json({ username, log, count });
+        res.json({ username, log, count: log.length });
       }
     });
 });
